@@ -34,31 +34,31 @@ This project strictly follows **Clean Architecture** principles separated into d
 
 ```mermaid
 graph TD
-    subgraph Presentation Layer (MVI)
-        UI[NetworkScreen.kt] -->|NetworkUiIntent| VM[NetworkViewModel.kt]
+    subgraph Presentation ["Presentation Layer (MVI)"]
+        UI["NetworkScreen.kt"] -->|NetworkUiIntent| VM["NetworkViewModel.kt"]
         VM -->|NetworkUiState| UI
         VM -->|NetworkUiEffect| UI
     end
 
-    subgraph Domain Layer (Clean Architecture)
-        VM --> FetchPostsUseCase[FetchPostsUseCase.kt]
-        VM --> RunBenchmarkUseCase[RunBenchmarkUseCase.kt]
-        FetchPostsUseCase --> NetworkRepository[NetworkRepository.kt]
+    subgraph Domain ["Domain Layer (Clean Architecture)"]
+        VM --> FetchPostsUseCase["FetchPostsUseCase.kt"]
+        VM --> RunBenchmarkUseCase["RunBenchmarkUseCase.kt"]
+        FetchPostsUseCase --> NetworkRepository["NetworkRepository.kt"]
         RunBenchmarkUseCase --> NetworkRepository
     end
 
-    subgraph Data Layer
-        NetworkRepositoryImpl[NetworkRepositoryImpl.kt] -.->|Implements| NetworkRepository
-        NetworkRepositoryImpl --> ConnectionPoolManager[ConnectionPoolManager.kt]
-        NetworkRepositoryImpl --> OkHttpEventListener[OkHttpEventListener.kt]
-        ConnectionPoolManager --> RetrofitApiService[RetrofitApiService.kt]
-        ConnectionPoolManager --> KtorNetworkClient[KtorNetworkClient.kt]
+    subgraph Data ["Data Layer"]
+        NetworkRepositoryImpl["NetworkRepositoryImpl.kt"] -.->|Implements| NetworkRepository
+        NetworkRepositoryImpl --> ConnectionPoolManager["ConnectionPoolManager.kt"]
+        NetworkRepositoryImpl --> OkHttpEventListener["OkHttpEventListener.kt"]
+        ConnectionPoolManager --> RetrofitApiService["RetrofitApiService.kt"]
+        ConnectionPoolManager --> KtorNetworkClient["KtorNetworkClient.kt"]
     end
 
-    subgraph Dependency Injection (Hilt)
-        NetworkModule[NetworkModule.kt] --> ConnectionPoolManager
-        RepositoryModule[RepositoryModule.kt] --> NetworkRepositoryImpl
-        UseCaseModule[UseCaseModule.kt] --> FetchPostsUseCase
+    subgraph DI ["Dependency Injection (Hilt)"]
+        NetworkModule["NetworkModule.kt"] --> ConnectionPoolManager
+        RepositoryModule["RepositoryModule.kt"] --> NetworkRepositoryImpl
+        UseCaseModule["UseCaseModule.kt"] --> FetchPostsUseCase
     end
 ```
 
